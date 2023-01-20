@@ -3,7 +3,7 @@ from six import with_metaclass
 from disco.types.application import ApplicationCommand, Interaction
 from disco.types.base import Model, ModelMeta, Field, ListField, AutoDictField, snowflake, datetime, text, str_or_int
 from disco.types.channel import Channel, PermissionOverwrite, ThreadMember, StageInstance
-from disco.types.guild import Guild, GuildMember, Role, GuildEmoji, Integration
+from disco.types.guild import AuditLogEntry, Guild, GuildMember, Role, GuildEmoji, Integration
 from disco.types.invite import Invite
 from disco.types.reactions import MessageReactionEmoji, Sticker
 from disco.types.message import Message
@@ -1062,3 +1062,14 @@ class GuildScheduledEventDelete(GatewayEvent):
 
 class GuildApplicationCommandIndexUpdate(GatewayEvent):
     guild_id = Field(snowflake)
+
+@wraps_model(AuditLogEntry, alias='entry')
+class GuildAuditLogEntryCreate(GatewayEvent):
+    """
+    Sent when an audit log entry is created in a guild.
+
+    Attributes
+    ----------
+    entry : class:`disco.types.guild.AuditLogEntry`
+        The entry that was created
+    """
