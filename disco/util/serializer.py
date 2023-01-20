@@ -16,7 +16,7 @@ class Serializer:
     @staticmethod
     def json():
         try:
-            from ujson import loads, dumps
+            from orjson import loads, dumps
         except ImportError:
             from json import loads, dumps
         return loads, dumps

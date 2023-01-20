@@ -14,13 +14,13 @@ extras_require = {
     'voice': ['pynacl>=1.5.0'],
     'http': ['flask>=2.1.1'],
     'yaml': ['pyyaml>=5.3.1'],
-    'music': ['yt-dlp>=2022.3.8.2'],
+    'music': ['yt-dlp>=2023.1.6'],
     'performance': [
         'earl-etf>=2.1.2',
-        'regex>=2022.3.15',
+        'regex>=2022.10.31',
         'pylibyaml>=0.1.0',
-        'ujson>=5.2.0',
-        'wsaccel>=0.6.3',
+        'orjson>=3.8.5',
+        'wsaccel>=0.6.4',
     ],
     'sharding': ['gipc>=1.4.0'],
 }
