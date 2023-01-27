@@ -551,7 +551,9 @@ class _Message(SlottedModel):
         `Guild`
             The guild (if applicable) this message was created in.
         """
-        if self.guild_id:
+        if self.channel:
+            return self.channel.guild
+        elif self.guild_id:
             return self.client.state.guilds.get(self.guild_id)
 
     @cached_property
