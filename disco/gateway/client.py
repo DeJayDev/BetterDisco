@@ -67,6 +67,9 @@ class GatewayClient(LoggingClass):
         # Cached gateway URL
         self._cached_gateway_url = None
 
+        # Resume URL
+        self.resume_gateway_url = None
+
         # Heartbeat
         self._heartbeat_task = None
         self._heartbeat_acknowledged = True
@@ -136,6 +139,7 @@ class GatewayClient(LoggingClass):
     def on_ready(self, ready):
         self.log.info('Received READY')
         self.session_id = ready.session_id
+        self.resume_gateway_url = ready.resume_gateway_url
         self.reconnects = 0
 
     def on_resumed(self, _):
@@ -217,6 +221,7 @@ class GatewayClient(LoggingClass):
         if self.seq and self.session_id:
             self.log.info(f'WS Opened: attempting resume with SID: {self.session_id} SEQ: {self.seq}')
             self.replaying = True
+
             self.send(OPCode.RESUME, {
                 'token': self.client.config.token,
                 'session_id': self.session_id,
@@ -296,7 +301,7 @@ class GatewayClient(LoggingClass):
         gevent.sleep(wait_time)
 
         # Reconnect
-        self.connect_and_run()
+        self.connect_and_run(self.resume_gateway_url)
 
     def run(self):
         gevent.spawn(self.connect_and_run)

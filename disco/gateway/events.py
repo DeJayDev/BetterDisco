@@ -143,21 +143,24 @@ class Ready(GatewayEvent):
         The session ID.
     user : :class:`disco.types.user.User`
         The user object for the authenticated account.
-    guilds : list[:class:`disco.types.guild.Guild`
+    guilds : list[:class:`disco.types.guild.Guild`]
         All guilds this account is a member of. These are shallow guild objects.
         These are marked unavailable until the corresponding GuildCreate event is received.
-    private_channels list[:class:`disco.types.channel.Channel`]
-        An empty array.
+    resume_gateway_url : str
+        The gateway URL to use for resuming this session.
     """
     trace = ListField(str, alias='_trace')
     application = Field(Application)
     geo_ordered_rtc_regions = ListField(str)
+    guild_join_requests = ListField(None)
     guilds = ListField(Guild)
-    # presences = Field(...)
+    presences = ListField(None)
     private_channels = ListField(Channel)
     relationships = ListField(None)
-    session_id = Field(text)
-    shard = Field(str_or_int)
+    resume_gateway_url = Field(str)
+    session_id = Field(str)
+    session_type = Field(str)
+    shard = Field(str_or_int) # TODO: This is a tuple.
     user = Field(User)
     # user_settings = Field(...)
     version = Field(int, alias='v')
