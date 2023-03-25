@@ -1066,6 +1066,7 @@ class GuildScheduledEventDelete(GatewayEvent):
 class GuildApplicationCommandIndexUpdate(GatewayEvent):
     guild_id = Field(snowflake)
 
+
 @wraps_model(AuditLogEntry, alias='entry')
 class GuildAuditLogEntryCreate(GatewayEvent):
     """
@@ -1076,3 +1077,11 @@ class GuildAuditLogEntryCreate(GatewayEvent):
     entry : class:`disco.types.guild.AuditLogEntry`
         The entry that was created
     """
+
+
+class AutoModerationActionExecution(GatewayEvent):
+    guild_id = Field(snowflake)
+
+
+class GuildAuditLogEntryCreate(GatewayEvent):
+    guild_id = Field(snowflake)
