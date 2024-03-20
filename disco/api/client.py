@@ -454,14 +454,14 @@ class APIClient(LoggingClass):
                 }
 
             r = self.http(
-                Routes.CHANNELS_THREAD_START,
+                Routes.CHANNELS_THREAD_CREATE,
                 dict(channel=channel),
                 data={'payload_json': json.dumps(payload)},
                 files=files,
                 headers=_reason_header(reason)
             )
         else:
-            r = self.http(Routes.CHANNELS_THREAD_START, dict(channel=channel), json=payload, headers=_reason_header(reason))
+            r = self.http(Routes.CHANNELS_THREAD_CREATE, dict(channel=channel), json=payload, headers=_reason_header(reason))
 
         # Catch API failures
         # TODO: long-term solution at higher level
@@ -505,7 +505,7 @@ class APIClient(LoggingClass):
     #         )
     #         return Channel.create(self.client, r.json())
     #
-    #     r = self.http(Routes.CHANNELS_THREAD_START, dict(channel=channel), json=payload, headers=_reason_header(reason))
+    #     r = self.http(Routes.CHANNELS_THREAD_CREATE, dict(channel=channel), json=payload, headers=_reason_header(reason))
     #     return Channel.create(self.client, r.json())
 
     def channels_messages_threads_create(self, channel, message, name, auto_archive_duration=None, rate_limit_per_user=None, reason=None):
@@ -546,9 +546,9 @@ class APIClient(LoggingClass):
         Returns: A tuple containing threads, thread members, and if there are more threads that can be listed.
         """
         if public:
-            route = Routes.CHANNELS_THREADS_LIST_ARCHIVED_PUBLIC
+            route = Routes.CHANNELS_THREADS_PUBLIC_ARCHIVED_LIST
         else:
-            route = Routes.CHANNELS_THREADS_LIST_ARCHIVED_PRIVATE
+            route = Routes.CHANNELS_THREADS_PRIVATE_ARCHIVED_LIST
 
         r = self.http(route, dict(channel=channel), params=optional(
             before=before,
@@ -564,13 +564,13 @@ class APIClient(LoggingClass):
         self.http(Routes.CHANNELS_THREAD_LEAVE, dict(channel=channel))
 
     def channels_threads_member_add(self, channel, member):
-        self.http(Routes.CHANNELS_THREAD_MEMBER_ADD, dict(channel=channel, member=member))
+        self.http(Routes.CHANNELS_THREAD_MEMBERS_ADD, dict(channel=channel, member=member))
 
     def channels_threads_member_remove(self, channel, member):
-        self.http(Routes.CHANNELS_THREAD_MEMBER_REMOVE, dict(channel=channel, member=member))
+        self.http(Routes.CHANNELS_THREAD_MEMBERS_REMOVE, dict(channel=channel, member=member))
 
     def channels_threads_member_get(self, channel, member):
-        r = self.http(Routes.CHANNELS_THREAD_MEMBER_GET, dict(channel=channel, member=member))
+        r = self.http(Routes.CHANNELS_THREAD_MEMBERS_GET, dict(channel=channel, member=member))
         return ThreadMember.create(self.client, r.json())
 
     def channels_threads_members_list(self, channel):
